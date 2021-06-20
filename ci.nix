@@ -3,7 +3,7 @@
 in {
   name = "zenamateur";
   ci.gh-actions.enable = true;
-  cache.cachix.arc.enable = true;
+  cache.cachix.arc.publicKey = "arc.cachix.org-1:DZmhclLkB6UO0rc0rBzNpwFbbaeLfyn+fYccuAy7YVY=";
   channels.nixpkgs = "stable";
 
   tasks.smucmd = {
