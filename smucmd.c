@@ -175,8 +175,6 @@ int main(int argc, const char* argv[]) {
 					return 1;
 				}
 			}
-			// on, off
-			TODO;
 		} else {
 			printf("unknown command %s\n", cmd);
 			return 1;
