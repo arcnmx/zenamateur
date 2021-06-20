@@ -12,7 +12,7 @@
 
     buildInputs = [ libsmu ];
 
-    unpackPhase = ":"; # doUnpack? skipUnpack?
+    dontUnpack = true;
 
     buildPhase = ''
       runHook preBuild
