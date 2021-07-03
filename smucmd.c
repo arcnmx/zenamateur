@@ -36,8 +36,8 @@ enum flag {
 
 #define FREQ_MAX 8000
 
-int set_overclock_freq_for_core(smu_arg_t* args, uint8_t core, uint8_t ccx, uint8_t ccd, uint16_t frequency) {
-	if (frequency > FREQ_MAX || core > 3 || ccx > 1 || ccd > 1) {
+int set_overclock_freq_for_core(smu_arg_t* args, uint8_t ccd, uint8_t ccx, uint8_t core, uint16_t frequency) {
+	if (frequency > FREQ_MAX || core >= 0x10 || ccx >= 4 || ccd >= 4) {
 		return -1;
 	}
 
@@ -166,11 +166,11 @@ int main(int argc, const char* argv[]) {
 				help();
 				return 1;
 			} else {
-				int core = atoi(argv[2]);
+				int ccd = atoi(argv[2]);
 				int ccx = atoi(argv[3]);
-				int ccd = atoi(argv[4]);
+				int core = atoi(argv[4]);
 				int freq = atoi(argv[5]);
-				if (freq <= 0 || set_overclock_freq_for_core(&args, core, ccx, ccd, freq)) {
+				if (freq <= 0 || set_overclock_freq_for_core(&args, ccd, ccx, core, freq)) {
 					printf("args out of range\n");
 					return 1;
 				}
