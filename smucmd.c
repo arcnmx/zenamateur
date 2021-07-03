@@ -126,10 +126,28 @@ int main(int argc, const char* argv[]) {
 					return 1;
 				} else {
 					uint32_t uv = 1550000 - vid * 6250;
-					printf("setting VID to %f mV", (float)uv / 1000);
+					printf("setting VID to %.3f mV\n", (float)uv / 1000);
 				}
 				op = SET_OVERCLOCK_CPU_VID;
 				args.i.args0 = vid;
+			}
+		} else if (!strcmp("vcore", cmd)) {
+			if (argc <= 2) {
+				help();
+				return 1;
+			} else {
+				int mv = atoi(argv[2]);
+				if (mv <= 0) {
+					printf("invalid vcore\n");
+					return 1;
+				} else {
+					uint32_t uv = mv * 1000;
+					uint32_t vid = (1550000 - uv) / 6250;
+					args.i.args0 = vid;
+					uint32_t uv_rounded = 1550000 - vid * 6250;
+					printf("setting VID to 0x%02x (%d, %.3f mV)\n", vid, vid, (float)uv_rounded / 1000);
+				}
+				op = SET_OVERCLOCK_CPU_VID;
 			}
 		} else if (!strcmp("freq", cmd)) {
 			if (argc <= 2) {
