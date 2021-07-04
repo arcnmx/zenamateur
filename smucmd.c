@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <strings.h>
 
 enum rsmu_op {
@@ -56,6 +57,7 @@ void help() {
 int main(int argc, const char* argv[]) {
 	enum smu_mailbox mailbox = TYPE_RSMU; // see also TYPE_MP1
 	int op = GET_SMU_VERSION;
+	bool floatOp = false;
 
 	smu_arg_t args;
 	memset(&args, 0, sizeof(args));
@@ -104,6 +106,8 @@ int main(int argc, const char* argv[]) {
 		} else if (!strcmp("scalar", cmd)) {
 			if (argc <= 2) {
 				op = GET_PBO_SCALAR;
+				args.f.args0_f = 1.0f;
+				floatOp = true;
 			} else {
 				int scalar = atoi(argv[2]);
 				if (scalar < 1 || scalar > 10) {
@@ -215,6 +219,8 @@ int main(int argc, const char* argv[]) {
 	if (res != SMU_Return_OK) {
 		printf("SMU command failed %d: %s\n", res, smu_return_to_str(res));
 		exitcode = 1;
+	} else if (floatOp) {
+		printf("SMU returned: %.2f\n", args.f.args0_f);
 	} else {
 		printf("SMU returned: %08x\n", args.i.args0);
 	}
